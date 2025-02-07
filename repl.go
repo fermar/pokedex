@@ -11,7 +11,9 @@ import (
 func repl() {
 	comandos := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
+	// var conf *config
 
+	conf := config{}
 	for {
 
 		fmt.Print("Pockedex > ")
@@ -28,7 +30,10 @@ func repl() {
 		if com, ok := comandos[input[0]]; !ok {
 			fmt.Println("Unkown command")
 		} else {
-			com.callback()
+			err := com.callback(&conf)
+			if err != nil {
+				log.Fatalln(err)
+			}
 		}
 		// fmt.Printf("Your command was: %v \n", input[0])
 
@@ -47,10 +52,25 @@ func cleanInput(text string) []string {
 
 }
 
+type config struct {
+	next     string
+	previous string
+}
+
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
+}
+
+type locAreaList struct {
+	Count    int    `json:"count"`
+	Next     string `json:"next"`
+	Previous string `json:"previous"`
+	Results  []struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"results"`
 }
 
 func getCommands() map[string]cliCommand {
@@ -65,6 +85,17 @@ func getCommands() map[string]cliCommand {
 			name:        "help",
 			description: "Ayuda del pokedex",
 			callback:    commandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "locations forward de Pokemon World",
+			callback:    commandMap,
+		},
+
+		"mapb": {
+			name:        "mapb",
+			description: "location backwards de Pokemon World",
+			callback:    commandMapb,
 		},
 	}
 
