@@ -3,10 +3,17 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/fermar/pokedex/internal/pokeapi"
 	"log"
 	"os"
 	"strings"
 )
+
+type config struct {
+	poqueapiClient pokeapi.Client
+	next           *string
+	previous       *string
+}
 
 func repl() {
 	comandos := getCommands()
@@ -32,7 +39,7 @@ func repl() {
 		} else {
 			err := com.callback(&conf)
 			if err != nil {
-				log.Fatalln(err)
+				fmt.Println(err)
 			}
 		}
 		// fmt.Printf("Your command was: %v \n", input[0])
@@ -52,26 +59,21 @@ func cleanInput(text string) []string {
 
 }
 
-type config struct {
-	next     string
-	previous string
-}
-
 type cliCommand struct {
 	name        string
 	description string
 	callback    func(*config) error
 }
 
-type locAreaList struct {
-	Count    int    `json:"count"`
-	Next     string `json:"next"`
-	Previous string `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
-}
+// type locAreaList struct {
+// 	Count    int     `json:"count"`
+// 	Next     *string `json:"next"`
+// 	Previous *string `json:"previous"`
+// 	Results  []struct {
+// 		Name string `json:"name"`
+// 		URL  string `json:"url"`
+// 	} `json:"results"`
+// }
 
 func getCommands() map[string]cliCommand {
 
