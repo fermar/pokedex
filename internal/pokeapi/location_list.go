@@ -3,16 +3,18 @@ package pokeapi
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 )
 
-func (cli *Client) ListLoc(pageURL *string) (LocAreaList, error) {
+func (cli *Client) ListLoc(pageURL *string, logger *log.Logger) (LocAreaList, error) {
 
 	url := baseURL + "/location-area"
 	if pageURL != nil {
 		url = *pageURL
 	}
 
+	logger.Printf("Buscando URL: %v", url)
 	// res, err := http.Get(url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

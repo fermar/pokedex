@@ -3,16 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/fermar/pokedex/internal/pokeapi"
+	"io"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/fermar/pokedex/internal/pokeapi"
 )
 
 type config struct {
 	poqueapiClient pokeapi.Client
 	next           *string
 	previous       *string
+	enLog          bool
+	logger         *log.Logger
 }
 
 func repl() {
@@ -21,6 +25,7 @@ func repl() {
 	// var conf *config
 
 	conf := config{}
+	conf.logger = log.New(io.Discard, "Log:", log.LstdFlags)
 	for {
 
 		fmt.Print("Pockedex > ")
@@ -98,6 +103,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "location backwards de Pokemon World",
 			callback:    commandMapb,
+		},
+		"tlog": {
+			name:        "tlog",
+			description: "Toggle verbose output",
+			callback:    commandTlog,
 		},
 	}
 

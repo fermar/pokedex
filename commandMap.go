@@ -39,7 +39,7 @@ import (
 
 func commandMap(conf *config) error {
 	fmt.Println("Mostrando locations forward")
-	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next)
+	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next, conf.logger)
 	if err != nil {
 		return err
 	}
@@ -57,7 +57,7 @@ func commandMapb(conf *config) error {
 	if conf.previous == nil {
 		return errors.New("you're ont the first page")
 	}
-	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous)
+	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous, conf.logger)
 	if err != nil {
 		return err
 	}
