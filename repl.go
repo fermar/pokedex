@@ -3,12 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/fermar/pokedex/internal/pokeapi"
+	"github.com/fermar/pokedex/internal/pokecache"
 	"io"
 	"log"
 	"os"
 	"strings"
-
-	"github.com/fermar/pokedex/internal/pokeapi"
+	"time"
 )
 
 type config struct {
@@ -17,15 +18,16 @@ type config struct {
 	previous       *string
 	enLog          bool
 	logger         *log.Logger
+	cache          *pokecache.Cache
 }
 
 func repl() {
 	comandos := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
-	// var conf *config
 
 	conf := config{}
 	conf.logger = log.New(io.Discard, "Log:", log.LstdFlags)
+	conf.cache = pokecache.NewCache(10 * time.Second)
 	for {
 
 		fmt.Print("Pockedex > ")
@@ -47,7 +49,6 @@ func repl() {
 				fmt.Println(err)
 			}
 		}
-		// fmt.Printf("Your command was: %v \n", input[0])
 
 	}
 
@@ -59,9 +60,6 @@ func cleanInput(text string) []string {
 	words := strings.Fields(output)
 	return words
 
-	// var ret []string
-	// return ret
-
 }
 
 type cliCommand struct {
@@ -69,16 +67,6 @@ type cliCommand struct {
 	description string
 	callback    func(*config) error
 }
-
-// type locAreaList struct {
-// 	Count    int     `json:"count"`
-// 	Next     *string `json:"next"`
-// 	Previous *string `json:"previous"`
-// 	Results  []struct {
-// 		Name string `json:"name"`
-// 		URL  string `json:"url"`
-// 	} `json:"results"`
-// }
 
 func getCommands() map[string]cliCommand {
 

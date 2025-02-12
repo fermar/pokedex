@@ -15,7 +15,7 @@ func (cli *Client) ListLoc(pageURL *string, logger *log.Logger) (LocAreaList, er
 	}
 
 	logger.Printf("Buscando URL: %v", url)
-	// res, err := http.Get(url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return LocAreaList{}, err
