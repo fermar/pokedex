@@ -4,16 +4,19 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/fermar/pokedex/internal/pokelog"
 )
 
 func commandTlog(conf *config) error {
-	conf.enLog = !conf.enLog
-	if conf.enLog {
-		conf.logger.SetOutput(os.Stderr)
+
+	pokelog.Enabled = !pokelog.Enabled
+	if pokelog.Enabled {
+		pokelog.Logger.SetOutput(os.Stderr)
 		fmt.Println("verbose activado")
 	} else {
-		conf.logger.SetOutput(io.Discard)
-		fmt.Println("verbose DESactivado")
+		pokelog.Logger.SetOutput(io.Discard)
+		fmt.Println("verbose desactivado")
 	}
 
 	return nil

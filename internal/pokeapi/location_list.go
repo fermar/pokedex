@@ -3,20 +3,20 @@ package pokeapi
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/fermar/pokedex/internal/pokecache"
+	"github.com/fermar/pokedex/internal/pokelog"
 )
 
-func (cli *Client) ListLoc(pageURL *string, cache *pokecache.Cache, logger *log.Logger) (LocAreaList, error) {
+func (cli *Client) ListLoc(pageURL *string, cache *pokecache.Cache) (LocAreaList, error) {
 
 	url := baseURL + "/location-area"
 	if pageURL != nil {
 		url = *pageURL
 	}
 
-	logger.Printf("Buscando URL: %v", url)
+	pokelog.Logger.Printf("Buscando URL: %v", url)
 
 	data, hit := cache.Get(url)
 

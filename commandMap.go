@@ -3,11 +3,13 @@ package main
 import (
 	"errors"
 	"fmt"
+
+	"github.com/fermar/pokedex/internal/pokelog"
 )
 
 func commandMap(conf *config) error {
-	fmt.Println("Mostrando locations forward")
-	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next, conf.cache, conf.logger)
+	pokelog.Logger.Println("Mostrando locations forward")
+	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next, conf.cache)
 	if err != nil {
 		return err
 	}
@@ -22,11 +24,11 @@ func commandMap(conf *config) error {
 }
 
 func commandMapb(conf *config) error {
-	fmt.Println("Mostrando locations backwards")
+	pokelog.Logger.Println("Mostrando locations backwards")
 	if conf.previous == nil {
 		return errors.New("you're ont the first page")
 	}
-	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous, conf.cache, conf.logger)
+	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous, conf.cache)
 	if err != nil {
 		return err
 	}

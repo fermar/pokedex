@@ -1,8 +1,9 @@
 package pokecache
 
 import (
-	"log"
 	"time"
+
+	"github.com/fermar/pokedex/internal/pokelog"
 )
 
 func NewCache(interval time.Duration) *Cache {
@@ -10,7 +11,7 @@ func NewCache(interval time.Duration) *Cache {
 	c := Cache{}
 	c.cache = make(map[string]cacheEntry)
 
-	log.Println("New cache created")
+	pokelog.Logger.Println("New cache created")
 	return &c
 }
 
@@ -20,7 +21,7 @@ func (c *Cache) Add(key string, val []byte) {
 	c.cache[key] = cacheEntry{time.Now(), val}
 
 	c.mutex.Unlock()
-	log.Println("cache updated: entry added")
+	pokelog.Logger.Println("cache updated: entry added")
 	return
 }
 
@@ -30,10 +31,10 @@ func (c *Cache) Get(key string) (val []byte, hit bool) {
 
 	ce, ok := c.cache[key]
 	if !ok {
-		log.Println("cache MISS")
+		pokelog.Logger.Println("cache MISS")
 		return []byte{}, false
 	}
-	log.Println("cache HIT")
+	pokelog.Logger.Println("cache HIT")
 	return ce.val, true
 }
 
@@ -49,7 +50,7 @@ func (c *Cache) reaploop(interval time.Duration) int {
 	}
 	c.mutex.Unlock()
 	if count > 0 {
-		log.Printf("cache updated: cleaned %v entries\n", count)
+		pokelog.Logger.Printf("cache updated: cleaned %v entries\n", count)
 	}
 	return count
 }
