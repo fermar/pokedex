@@ -26,7 +26,7 @@ func commandMap(conf *config) error {
 func commandMapb(conf *config) error {
 	pokelog.Logger.Println("Mostrando locations backwards")
 	if conf.previous == nil {
-		return errors.New("you're ont the first page")
+		return errors.New("you're on the first page")
 	}
 	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous, conf.cache)
 	if err != nil {

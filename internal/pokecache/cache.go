@@ -12,6 +12,7 @@ func NewCache(interval time.Duration) *Cache {
 	c.cache = make(map[string]cacheEntry)
 
 	pokelog.Logger.Println("New cache created")
+	go c.reapLoop(interval)
 	return &c
 }
 
@@ -38,19 +39,26 @@ func (c *Cache) Get(key string) (val []byte, hit bool) {
 	return ce.val, true
 }
 
-func (c *Cache) reaploop(interval time.Duration) int {
-	c.mutex.Lock()
-	var count int
-	count = 0
-	for val, ce := range c.cache {
-		if time.Now().Sub(ce.createdAt) > interval {
-			delete(c.cache, val)
-			count++
+func (c *Cache) reapLoop(interval time.Duration) {
+
+	ticker := time.NewTicker(interval)
+
+	for {
+		_, ok := <-ticker.C
+		if ok {
+			delcount := 0
+			pokelog.Logger.Println("Analizando cache..")
+			c.mutex.Lock()
+			for val, ce := range c.cache {
+				if time.Now().Sub(ce.createdAt) > interval {
+					delete(c.cache, val)
+					delcount++
+				}
+			}
+			if delcount > 0 {
+				pokelog.Logger.Printf("%v entradas de cache borradas", delcount)
+			}
+			c.mutex.Unlock()
 		}
 	}
-	c.mutex.Unlock()
-	if count > 0 {
-		pokelog.Logger.Printf("cache updated: cleaned %v entries\n", count)
-	}
-	return count
 }
