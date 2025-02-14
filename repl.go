@@ -27,7 +27,7 @@ type config struct {
 func repl() {
 	comandos := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
-	pokelog.StartPokelogger()
+	pokelog.StartPokelogger(false)
 	conf := config{}
 	// conf.logger = log.New(io.Discard, "Log:", log.LstdFlags)
 	conf.cache = pokecache.NewCache(10 * time.Second)

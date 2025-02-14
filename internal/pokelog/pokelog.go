@@ -9,8 +9,8 @@ import (
 var Logger *log.Logger
 var Enabled bool
 
-func StartPokelogger() {
-	Enabled = false
+func StartPokelogger(startEnabled bool) {
+	Enabled = startEnabled
 	Logger = log.New(io.Discard, "PokeLog:", log.LstdFlags)
 }
 
@@ -23,4 +23,3 @@ func DisLog() {
 	Enabled = false
 	Logger.SetOutput(io.Discard)
 }
-

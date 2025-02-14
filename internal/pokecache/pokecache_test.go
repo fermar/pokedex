@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"testing"
 	"time"
+
+	"github.com/fermar/pokedex/internal/pokelog"
 )
 
 func TestAddGet(t *testing.T) {
@@ -22,44 +24,42 @@ func TestAddGet(t *testing.T) {
 		},
 	}
 
-	for i, _ := range cases {
+	for i, c := range cases {
 		t.Run(fmt.Sprintf("Probando caso %v", i), func(t *testing.T) {
+			pokelog.StartPokelogger(true)
 			cache := NewCache(interval)
-			fmt.Println(cache)
-			// cach.Add(c.key, c.val)
-			return
-			// cache := NewCache(interval)
-			// cache.Add(c.key, c.val)
-			// val, ok := cache.Get(c.key)
-			// if !ok {
-			// 	t.Errorf("expected to find key")
-			// 	return
-			// }
-			// if string(val) != string(c.val) {
-			// 	t.Errorf("expected to find value")
-			// 	return
-			// }
+			cache.Add(c.key, c.val)
+			val, ok := cache.Get(c.key)
+			if !ok {
+				t.Errorf("expected to find key")
+				return
+			}
+			if string(val) != string(c.val) {
+				t.Errorf("expected to find value")
+				return
+			}
 		})
 	}
 }
 
-// func TestReapLoop(t *testing.T) {
-// 	const baseTime = 5 * time.Millisecond
-// 	const waitTime = baseTime + 5*time.Millisecond
-// 	cache := NewCache(baseTime)
-// 	cache.Add("https://example.com", []byte("testdata"))
-//
-// 	_, ok := cache.Get("https://example.com")
-// 	if !ok {
-// 		t.Errorf("expected to find key")
-// 		return
-// 	}
-//
-// 	time.Sleep(waitTime)
-//
-// 	_, ok = cache.Get("https://example.com")
-// 	if ok {
-// 		t.Errorf("expected to not find key")
-// 		return
-// 	}
-// }
+func TestReapLoop(t *testing.T) {
+	pokelog.StartPokelogger(true)
+	const baseTime = 5 * time.Millisecond
+	const waitTime = baseTime + 5*time.Millisecond
+	cache := NewCache(baseTime)
+	cache.Add("https://example.com", []byte("testdata"))
+
+	_, ok := cache.Get("https://example.com")
+	if !ok {
+		t.Errorf("expected to find key")
+		return
+	}
+
+	time.Sleep(waitTime)
+
+	_, ok = cache.Get("https://example.com")
+	if ok {
+		t.Errorf("expected to not find key")
+		return
+	}
+}
