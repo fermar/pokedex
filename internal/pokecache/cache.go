@@ -1,19 +1,20 @@
 package pokecache
 
 import (
+	"sync"
 	"time"
 
 	"github.com/fermar/pokedex/internal/pokelog"
 )
 
-func NewCache(interval time.Duration) *Cache {
+func NewCache(interval time.Duration) Cache {
 
 	c := Cache{}
 	c.cache = make(map[string]cacheEntry)
-
+	c.mutex = &sync.Mutex{}
 	pokelog.Logger.Println("New cache created")
 	go c.reapLoop(interval)
-	return &c
+	return c
 }
 
 func (c *Cache) Add(key string, val []byte) {

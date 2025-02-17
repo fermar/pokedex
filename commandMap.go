@@ -9,7 +9,7 @@ import (
 
 func commandMap(conf *config) error {
 	pokelog.Logger.Println("Mostrando locations forward")
-	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next, conf.cache)
+	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next)
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func commandMapb(conf *config) error {
 	if conf.previous == nil {
 		return errors.New("you're on the first page")
 	}
-	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous, conf.cache)
+	locationsRes, err := conf.poqueapiClient.ListLoc(conf.previous)
 	if err != nil {
 		return err
 	}

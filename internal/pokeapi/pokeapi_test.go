@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fermar/pokedex/internal/pokecache"
+	// "github.com/fermar/pokedex/internal/pokecache"
 	"github.com/fermar/pokedex/internal/pokelog"
 )
 
@@ -23,9 +23,9 @@ func TestListLoc(t *testing.T) {
 	for i, c := range cases {
 		t.Run(fmt.Sprintf("Probando caso %v", i), func(t *testing.T) {
 			pokelog.StartPokelogger(true)
-			cache := pokecache.NewCache(5 * time.Second)
-			client := NewClient(5 * time.Second)
-			listArea, err := client.ListLoc(c.key, cache)
+			// cache := pokecache.NewCache(5 * time.Second)
+			client := NewClient(5*time.Second, 20*time.Second)
+			listArea, err := client.ListLoc(c.key)
 			if err != nil {
 				t.Errorf("listArea returned error")
 				return

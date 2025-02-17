@@ -5,11 +5,11 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/fermar/pokedex/internal/pokecache"
+	// "github.com/fermar/pokedex/internal/pokecache"
 	"github.com/fermar/pokedex/internal/pokelog"
 )
 
-func (cli *Client) ListLoc(pageURL *string, cache *pokecache.Cache) (LocAreaList, error) {
+func (cli *Client) ListLoc(pageURL *string) (LocAreaList, error) {
 
 	url := baseURL + "/location-area"
 	if pageURL != nil {
@@ -18,7 +18,7 @@ func (cli *Client) ListLoc(pageURL *string, cache *pokecache.Cache) (LocAreaList
 
 	pokelog.Logger.Printf("Buscando URL: %v", url)
 
-	data, hit := cache.Get(url)
+	data, hit := cli.cache.Get(url)
 
 	if !hit {
 		req, err := http.NewRequest("GET", url, nil)
@@ -35,7 +35,7 @@ func (cli *Client) ListLoc(pageURL *string, cache *pokecache.Cache) (LocAreaList
 		if err != nil {
 			return LocAreaList{}, err
 		}
-		cache.Add(url, data)
+		cli.cache.Add(url, data)
 	}
 
 	locList := LocAreaList{}

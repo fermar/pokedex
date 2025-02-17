@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/fermar/pokedex/internal/pokeapi"
-	"github.com/fermar/pokedex/internal/pokecache"
+	// "github.com/fermar/pokedex/internal/pokecache"
 	"github.com/fermar/pokedex/internal/pokelog"
 
 	// "io"
 	"log"
 	"os"
 	"strings"
-	"time"
+	// "time"
 )
 
 type config struct {
@@ -21,16 +21,15 @@ type config struct {
 	previous       *string
 	// enLog          bool
 	// logger         *log.Logger
-	cache *pokecache.Cache
+	// cache *pokecache.Cache
 }
 
-func repl() {
+func repl(conf *config) {
 	comandos := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
-	pokelog.StartPokelogger(false)
-	conf := config{}
+	// conf := config{}
 	// conf.logger = log.New(io.Discard, "Log:", log.LstdFlags)
-	conf.cache = pokecache.NewCache(10 * time.Second)
+	// conf.cache = pokecache.NewCache(10 * time.Second)
 	for {
 
 		if pokelog.Enabled {
@@ -50,7 +49,7 @@ func repl() {
 		if com, ok := comandos[input[0]]; !ok {
 			fmt.Println("Unkown command")
 		} else {
-			err := com.callback(&conf)
+			err := com.callback(conf)
 			if err != nil {
 				fmt.Println(err)
 			}
