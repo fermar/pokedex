@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/fermar/pokedex/internal/pokelog"
+	// "github.com/fermar/pokedex/internal/pokelog"
 )
 
 func TestAddGet(t *testing.T) {
@@ -43,6 +44,7 @@ func TestAddGet(t *testing.T) {
 }
 
 func TestReapLoop(t *testing.T) {
+	// pokelog.StartPokelogger(true)
 	pokelog.StartPokelogger(true)
 	const baseTime = 5 * time.Millisecond
 	const waitTime = baseTime + 5*time.Millisecond

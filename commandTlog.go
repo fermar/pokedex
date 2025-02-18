@@ -10,12 +10,12 @@ import (
 
 func commandTlog(conf *config) error {
 
-	pokelog.Enabled = !pokelog.Enabled
-	if pokelog.Enabled {
-		pokelog.Logger.SetOutput(os.Stderr)
+	pokelog.Pl.Enabled = !pokelog.Pl.Enabled
+	if pokelog.Pl.Enabled {
+		pokelog.Pl.Plogger.SetOutput(os.Stderr)
 		fmt.Println("verbose activado")
 	} else {
-		pokelog.Logger.SetOutput(io.Discard)
+		pokelog.Pl.Plogger.SetOutput(io.Discard)
 		fmt.Println("verbose desactivado")
 	}
 
