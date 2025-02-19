@@ -6,33 +6,23 @@ import (
 
 	"github.com/fermar/pokedex/internal/pokeapi"
 	"github.com/fermar/pokedex/internal/pokelog"
-	// "github.com/fermar/pokedex/internal/pokecache"
-	// "github.com/fermar/pokedex/internal/pokelog"
-
-	// "io"
 	"log"
 	"os"
 	"strings"
-	// "time"
 )
 
 type config struct {
 	poqueapiClient pokeapi.Client
 	next           *string
 	previous       *string
-	// pl             pokelog.PokeLogger
-	// cache *pokecache.Cache
 }
 
 func repl(conf *config) {
 	comandos := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
-	// conf := config{}
-	// conf.logger = log.New(io.Discard, "Log:", log.LstdFlags)
-	// conf.cache = pokecache.NewCache(10 * time.Second)
 	for {
 
-		if pokelog.Enabled {
+		if pokelog.Pl.Enabled {
 			fmt.Print("Pockedex (verbose)> ")
 		} else {
 			fmt.Print("Pockedex > ")

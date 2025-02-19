@@ -8,8 +8,7 @@ import (
 )
 
 func main() {
-	// fmt.Println("Hello, World!")
-	pokelog.StartPokelogger(false)
+	pokelog.StartPokelogger(true)
 	pokeClient := pokeapi.NewClient(5*time.Second, 20*time.Second)
 	conf := &config{
 		poqueapiClient: pokeClient,
