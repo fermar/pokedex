@@ -32,7 +32,7 @@ func repl(conf *config) {
 	// conf.cache = pokecache.NewCache(10 * time.Second)
 	for {
 
-		if pokelog.Pl.Enabled {
+		if pokelog.Enabled {
 			fmt.Print("Pockedex (verbose)> ")
 		} else {
 			fmt.Print("Pockedex > ")

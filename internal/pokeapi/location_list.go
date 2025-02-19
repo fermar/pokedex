@@ -16,7 +16,7 @@ func (cli *Client) ListLoc(pageURL *string) (LocAreaList, error) {
 		url = *pageURL
 	}
 
-	pokelog.Pl.Plogger.Printf("Buscando URL: %v", url)
+	pokelog.Plogger.Printf("Buscando URL: %v", url)
 
 	data, hit := cli.cache.Get(url)
 

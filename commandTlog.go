@@ -2,20 +2,22 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"os"
+	// "io"
+	// "os"
 
 	"github.com/fermar/pokedex/internal/pokelog"
 )
 
 func commandTlog(conf *config) error {
 
-	pokelog.Pl.Enabled = !pokelog.Pl.Enabled
-	if pokelog.Pl.Enabled {
-		pokelog.Pl.Plogger.SetOutput(os.Stderr)
+	pokelog.Enabled = !pokelog.Enabled
+	if pokelog.Enabled {
+		// pokelog.Plogger.SetOutput(os.Stderr)
+		pokelog.EnLog()
 		fmt.Println("verbose activado")
 	} else {
-		pokelog.Pl.Plogger.SetOutput(io.Discard)
+		// pokelog.Plogger.SetOutput(io.Discard)
+		pokelog.DisLog()
 		fmt.Println("verbose desactivado")
 	}
 
