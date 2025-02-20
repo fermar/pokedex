@@ -9,7 +9,7 @@ import (
 	// "github.com/fermar/pokedex/internal/pokelog"
 )
 
-func commandTlog(conf *config) error {
+func commandTlog(conf *config, param []string) error {
 
 	// pokelog.Enabled = !pokelog.Enabled
 	pokelog.Pl.Enabled = !pokelog.Pl.Enabled

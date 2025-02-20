@@ -39,7 +39,8 @@ func repl(conf *config) {
 		if com, ok := comandos[input[0]]; !ok {
 			fmt.Println("Unkown command")
 		} else {
-			err := com.callback(conf)
+
+			err := com.callback(conf, input[1:])
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -60,7 +61,7 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -86,6 +87,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "location backwards de Pokemon World",
 			callback:    commandMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Explore pokeworld",
+			callback:    commandExplore,
 		},
 		"tlog": {
 			name:        "tlog",

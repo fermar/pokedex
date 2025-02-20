@@ -7,7 +7,7 @@ import (
 	"github.com/fermar/pokedex/internal/pokelog"
 )
 
-func commandMap(conf *config) error {
+func commandMap(conf *config, param []string) error {
 	pokelog.Pl.Plogger.Println("Mostrando locations forward")
 	locationsRes, err := conf.poqueapiClient.ListLoc(conf.next)
 	if err != nil {
@@ -23,7 +23,7 @@ func commandMap(conf *config) error {
 	return nil
 }
 
-func commandMapb(conf *config) error {
+func commandMapb(conf *config, param []string) error {
 	pokelog.Pl.Plogger.Println("Mostrando locations backwards")
 	if conf.previous == nil {
 		return errors.New("you're on the first page")
