@@ -8,7 +8,8 @@ import (
 )
 
 func main() {
-	pokelog.StartPokelogger(true)
+	pokelog.StartPokelogger(false)
+	UsrPokedex = make(userPokedex)
 	pokeClient := pokeapi.NewClient(5*time.Second, 20*time.Second)
 	conf := &config{
 		poqueapiClient: pokeClient,

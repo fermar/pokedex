@@ -21,16 +21,19 @@ func commandCatch(conf *config, param []string) error {
 		return err
 	}
 	var chance int
-	chance = rand.Intn(101)
+	chance = rand.Intn(pokeRes.BaseExperience)
+	prob := chance / pokeRes.BaseExperience
 	pokelog.Pl.Plogger.Printf("Experiencia: %v", pokeRes.BaseExperience)
 	pokelog.Pl.Plogger.Printf("Chance: %v", chance)
 
-	fmt.Printf("Throwing a Pokeball at %v", param[0])
+	fmt.Printf("Throwing a Pokeball at %v...\n", param[0])
 
-	if pokeRes.BaseExperience > chance {
-		fmt.Printf("%v se escapó", param[0])
+	if float32(prob) > 0.6 {
+		fmt.Printf("%v se escapó\n", param[0])
 	} else {
-		fmt.Printf("%v atrapado!", param[0])
+		fmt.Printf("%v atrapado!\n", param[0])
+		UsrPokedex[param[0]] = pokeRes
+		pokelog.Pl.Plogger.Printf("Se agrego %v a la pokedex.\n Cantidad de pokemones: %v\n", param[0], len(UsrPokedex))
 	}
 
 	// conf.next = locationsRes.Next
