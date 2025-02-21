@@ -2,6 +2,7 @@ package pokeapi
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 
@@ -31,6 +32,10 @@ func (cli *Client) Explore(area string) (PokemonesList, error) {
 			return PokemonesList{}, err
 		}
 		defer res.Body.Close()
+		if res.StatusCode == 404 {
+			// fmt.Printf("El pokemon %v no existe\n", pokeName)
+			return PokemonesList{}, errors.New("Area Inexistente")
+		}
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
 			return PokemonesList{}, err
