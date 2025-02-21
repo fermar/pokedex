@@ -88,6 +88,11 @@ func getCommands() map[string]cliCommand {
 			description: "location backwards de Pokemon World",
 			callback:    commandMapb,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Lista el contenido de la pokebola",
+			callback:    commandPokedex,
+		},
 		"explore": {
 			name:        "explore",
 			description: "Explorar área del pokeworld",
